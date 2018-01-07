@@ -1,0 +1,7 @@
+[0m[[0m[0minfo[0m] [0m[0mPackaging /home/manohar/Documents/spark-Example/WordCount_Dec_2/target/scala-2.11/hello_2.11-1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/manohar/Documents/spark-Example/WordCount_Dec_2/target/scala-2.11/classes/Hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Hello$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/manohar/Documents/spark-Example/WordCount_Dec_2/target/scala-2.11/classes/Hello$.class[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m

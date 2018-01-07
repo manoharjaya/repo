@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Driver.java&apos; to &apos;WC_Using_Titanic_Statement_2_oct_28/src&apos;&#x0A;- Original project: &apos;WC_Using_Titanic_Statement_1_oct_28&apos;&#x0A;- Destination element: &apos;WC_Using_Titanic_Statement_2_oct_28/src&apos;&#x0A;- Original element: &apos;Driver.java&apos;" description="Copy compilation unit" destination="=WC_Using_Titanic_Statement_2_oct_28/src" element1="/src&lt;{Driver.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1509117472327" units="1" version="1.0"/>
+</session>

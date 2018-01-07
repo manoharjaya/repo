@@ -1,0 +1,43 @@
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.WritableComparable;
+
+public class MyValue implements WritableComparable{
+
+	private Text value1,value2;
+	
+	public MyValue() {
+		this.value1=new Text();
+		this.value2=new Text();
+	}
+	
+	
+	public MyValue(Text value1, Text value2) {
+		super();
+		this.value1 = value1;
+		this.value2 = value2;
+	}
+
+
+	@Override
+	public void readFields(DataInput arg0) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void write(DataOutput arg0) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

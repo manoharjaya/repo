@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 elements to &apos;WC_partitioner_oct_17/src&apos;&#x0A;- Original project: &apos;WC_combiner_oct_17&apos;&#x0A;- Destination element: &apos;WC_partitioner_oct_17/src&apos;&#x0A;- Original elements:&#x0A;     Driver.java&#x0A;     MyMapper.java&#x0A;     MyReducer.java" description="Copy compilation units" destination="=WC_partitioner_oct_17/src" element1="/src&lt;{Driver.java" element2="/src&lt;{MyMapper.java" element3="/src&lt;{MyReducer.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1508237992058" units="3" version="1.0"/>
+</session>
