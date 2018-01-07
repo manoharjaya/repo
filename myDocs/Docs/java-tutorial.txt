@@ -1,0 +1,46 @@
+
+
+
+
+1)create a main MANIFEST file first(because MANIFEST file is the entry point for executable jar)
+----------------------------------------------------------------------------------------------
+
+
+Manifest-version: 1.0
+Main-Class: HelloWorld   ///(have to mention the main class name)
+
+
+
+2)create executable jar
+-------------------------
+
+
+jar -cvfm HelloWorld.jar MANIFEST.MF HelloWorld.class
+
+
+		(or)
+
+
+
+jar -cvfe without_Object_Nov_10.jar without_Object_Nov_10 without_Object_Nov_10.class (create a MANIFEST file at entry point)
+
+
+3)execute the jar
+------------------
+
+
+java -jar without_Object_Nov_10.jar
+
+
+4)viewing jar file
+----------------------
+
+
+jar -tvf without_Object_Nov_10.jar
+
+
+5)extracting jat files
+-----------------------
+
+
+jar -xvf without_Object_Nov_10.jar

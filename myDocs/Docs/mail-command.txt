@@ -1,0 +1,50 @@
+
+
+							SMTP
+					------------------------
+
+openssl s_client -connect smtp.gmail.com:465 -crlf -ign_eof
+
+
+helo localhost or ehlo localhost
+AUTH LOGIN bWFub2hhcmpheWEuYmVAZ21haWwuY29t QDJQQVNTd29yZDcm
+	
+mail from:<manoharj73@gmail.com>
+rcpt to:<manoharj73@gmail.com>
+
+
+DATA
+
+
+.
+QUIT
+
+
+
+-----------------------------------------------------------------------
+
+								IMAP
+					--------------------------
+
+openssl s_client -crlf -connect imap.gmail.com:993
+
+a login manoharj73@gmail.com @2PASSword7&
+
+a list "" "*"
+
+a select inbox
+
+a FETCH 1:* FLAGS
+
+
+a FETCH 1 (FLAGS BODY[HEADER.FIELDS (DATE FROM SUBJECT)])
+
+a FETCH 1:* INTERNALDATE
+
+
+a store 1:* +FLAGS \seen
+
+a store 1:* +FLAGS \seen
+
+
+

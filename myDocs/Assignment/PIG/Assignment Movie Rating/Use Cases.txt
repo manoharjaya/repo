@@ -1,0 +1,20 @@
+Use Case 1
+
+List the movies that having a rating greater than 4
+==movies_greater_than_four = FILTER movies BY (float)rating>4.0;
+
+Use Case 2
+List the movies that were released between 1950 and 1960
+==movies_between_50_60 = FILTER movies by year>1950 and year<1960;
+
+Use Case 3
+List the movies that start with the Alpahbet A
+==movies_starting_with_A = FILTER movies by name matches 'A.*';
+
+
+
+Use Case 4
+List the movies that have duration greater that 2 hours
+==movies_duration_2_hrs = FILTER movies by duration > 7200;
+
+

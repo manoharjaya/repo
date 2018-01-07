@@ -1,0 +1,95 @@
+Array
+=====
+
+create table tab7(id int,name string,sal bigint,sub array<string>,city string)
+row format delimited
+fields terminated by ','
+collection items terminated by '$';
+
+Input Data
+1,abc,40000,a$b$c,hyd
+2,def,3000,d$f,bang
+
+hive> load data local inpath '/home/user/hivejobs/arrayfile' overwrite into table tab7;
+
+select * from tab7;
+select sub[2] from tab7 where id=1
+select sub[0] from tab7;
+
+MAPFILE
+=======
+
+
+filename : mapfile
+Data:
+1,abc,40000,a$b$c,pf#500$epf#200,hyd
+2,def,3000,d$f,pf#500,bang
+
+
+create table table_map(id int,name string,sal bigint,sub array<string>,dud map<string,int>,city string)
+row format delimited
+fields terminated by ','
+collection items terminated by '$'
+map keys terminated by '#';
+
+hive> desc table_map;
+OK
+id                  	int                 	                    
+name                	string              	                    
+sal                 	bigint              	                    
+sub                 	array<string>       	                    
+dud                 	map<string,int>     	                    
+city                	string 
+
+hive> load data local inpath '/home/user/hivejobs/mapfile' overwrite into table table_map;
+
+hive> select * from table_map;
+	OK
+	1	abc	40000	["a","b","c"]	{"pf":500,"epf":200}	hyd
+	2	def	3000	["d","f"]	{"pf":500}	bang
+
+
+hive>select dud["pf"] from table_map;
+
+	hive> select dud["pf"] from table_map;
+	OK
+	500
+	500
+	Time taken: 0.157 seconds, Fetched: 2 row(s)
+
+hive>select dud["pf"],dud["epf"] from table_map;
+hive> select dud["pf"],dud["epf"] from table_map;
+OK
+500	200
+500	NULL
+Time taken: 0.143 seconds, Fetched: 2 row(s)
+
+
+
+STRUCTURE:
+structfile
+
+1,abc,40000,a$b$c,pf#500$epf#200,hyd$ap$500001
+2,def,3000,d$f,pf#500,bang$kar$600038
+
+create table table_struct(id int,name string,sal bigint,sub array<string>,dud map<string,int>,addr struct<city:string,state:string,pin:bigint>)
+row format delimited
+fields terminated by ','
+collection items terminated by '$'
+map keys terminated by '#';
+
+hive> load data local inpath '/home/user/hivejobs/structfile' into table table_struct;
+
+hive> select * from table_struct;
+OK
+1	abc	40000	["a","b","c"]	{"pf":500,"epf":200}	{"city":"hyd","state":"ap","pin":500001}
+2	def	3000	["d","f"]	{"pf":500}	{"city":"bang","state":"kar","pin":600038}
+Time taken: 0.143 seconds, Fetched: 2 row(s)
+
+
+hive>select addr.city from table_struct;
+
+OK
+hyd
+bang
+Time taken: 0.16 seconds, Fetched: 2 row(s)

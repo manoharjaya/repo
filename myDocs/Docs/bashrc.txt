@@ -1,0 +1,21 @@
+export JAVA_HOME=/usr/lib/java/jdk1.8.0_91
+export PATH="$PATH:$JAVA_HOME/bin"
+
+export HADOOP_HOME=/home/manohar/hadoop
+PATH=$PATH:$HADOOP_HOME/bin
+PATH=$PATH:$HADOOP_HOME/sbin
+
+export HADOOP_HOME=/home/manohar/hadoop1
+PATH=$PATH:$HADOOP_HOME/bin
+
+export PIG_HOME=/home/manohar/pig
+PATH=$PATH:$PIG_HOME/bin
+
+export HIVE_HOME=/home/manohar/hive
+PATH=$PATH:$HIVE_HOME/bin
+
+export SQOOP_HOME=/home/manohar/sqoop
+PATH=$PATH:$SQOOP_HOME/bin
+
+export PATH
+

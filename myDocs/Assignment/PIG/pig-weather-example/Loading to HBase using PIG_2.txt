@@ -1,0 +1,30 @@
+Loading HDFS data to HBase table using PIG
+
+Make Sure you create table in HBASE prior to running below script.
+
+raw_data = load '/weatherPIG.txt' using TextLoader as (data:chararray);
+weather_data = FOREACH raw_data GENERATE TRIM(SUBSTRING(data,6, 14)), TRIM(SUBSTRING(data, 46, 53));
+ranked_data = RANK weather_data;
+final_data = FILTER ranked_data BY $0 IS NOT NULL;
+STORE final_data into 'hbase://weather1' USING org.apache.pig.backend.hadoop.hbase.HBaseStorage('info:date1 info:temp');
+
+OR 
+weather_data = FOREACH raw_data GENERATE $2, $10;		
+
+===================
+Loading data from HBASE Table into HIVE Table
+		
+CREATE EXTERNAL TABLE hbase_weather(key INT, date1 STRING, temp STRING)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES("hbase.columns.mapping" = ":key, info:date1, info:temp")
+TBLPROPERTIES("hbase.table.name" =  "weather");
+
+=========================
+
+Below Script to load Hourly data...which has different layout compared to above
+
+raw_data = load '/weatherdata/' using TextLoader as (data:chararray);
+weather_data = FOREACH raw_data GENERATE TRIM(SUBSTRING(data,14,21)), TRIM(SUBSTRING(data, 81, 87)),TRIM(SUBSTRING(data, 89, 95));
+ranked_data = RANK weather_data;
+final_data = FILTER ranked_data BY $0 IS NOT NULL;
+STORE final_data into 'hbase://weather1' USING org.apache.pig.backend.hadoop.hbase.HBaseStorage('info:date1 info:min_temp info:max_temp');

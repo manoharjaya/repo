@@ -1,0 +1,19 @@
+raw_data = load '/weatherPIG.txt' using TextLoader as (data:chararray);
+weather_data = FOREACH raw_data GENERATE TRIM(SUBSTRING(data,raw_data 6, 14)), TRIM(SUBSTRING(data, 46, 53));
+
+weather_data = FOREACH raw_data GENERATE $2, $10;
+
+ranked_data = RANK weather_data;
+final_data = FILTER ranked_data BY $0 IS NOT NULL;
+STORE final_data into 'hbase://weather' USING org.apache.pig.backeNd.hadoop.hbase.HBaseStorage('info:date info:temp');
+		
+
+
+LOADING data INTO hive table
+=============================
+		
+CREATE EXTERNAL TABLE hbase_weather(key int, date1 string, temp string)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES("hbase.columns.mapping" = ":key, info:date1, info:temp")
+TBLPROPERTIES("hbase.table.name" =  "weather3");
+

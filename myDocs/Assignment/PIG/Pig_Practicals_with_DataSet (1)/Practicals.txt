@@ -1,0 +1,106 @@
+Example: Outer Bag
+In this example A is a relation or bag of tuples. You can think of this bag as an outer bag.
+
+A = LOAD '/pigdata' as (f1:int, f2:int, f3;int);
+DUMP A;
+(1,2,3)
+(4,2,1)
+(8,3,4)
+(4,3,3)a
+Example: Inner Bag
+Now, suppose we group relation A by the first field to form relation X.
+
+In this example X is a relation or bag of tuples. The tuples in relation X have two fields. The first field is type int. The second field is type bag; you can think of this bag as an inner bag.
+
+X = GROUP A BY f1;
+DUMP X;
+(1,{(1,2,3)})
+(4,{(4,2,1),(4,3,3)})
+(8,{(8,3,4)})
+
+
+i/p
+en google.com 50 100
+en yahoo.com 60 100
+us google.com 70 100
+en google.com 68 100
+
+google.com 118
+yahoo.com 60
+
+records = LOAD '/webcount' using PigStorage(' ') as  (projectname:chararray, pagename:chararray, pagecount:int,pagesize:int);
+
+filtered_records = FILTER records by projectname=='en';
+
+grouped_records = GROUP filtered_records by pagename;     
+
+results = FOREACH grouped_records generate group,SUM(filtered_records.pagecount);
+
+sorted_result = ORDER results by $1 desc;
+
+STORE sorted_result INTO '/YOUROUTPUT';
+
+
+wordcount
+=========
+myinput = load '/sample.txt' as (line);
+//TOKENIZE splits the line into a field for each word. 
+//flatten will take the collection of records returned by TOKENIZE and
+//produce a separate record for each one, calling the single field in the
+//record word.
+words = foreach myinput generate flatten(TOKENIZE(line)) as word;
+grpd = group words by word;
+cntd = foreach grpd generate group, COUNT(words);
+dump cntd;
+
+A. Load Customer records
+========================
+cust = load '/input/custs' using PigStorage(',') as (custid:chararray, firstname:chararray, lastname:chararray,age:long,profession:chararray);
+
+B. Select only 100 records
+==========================
+amt = limit cust 100;
+dump amt;
+
+c. Group customer records by profession
+=======================================
+groupbyprofession = group cust by profession;
+
+D. Count no of customers by profession
+======================================
+countbyprofession = foreach groupbyprofession generate group, COUNT(cust);
+dump countbyprofession;
+
+E. Load transaction records
+===========================
+txn = load '/input/txns' using PigStorage(',') as(txnid:chararray, date:chararray,custid:chararray,amount:double,category:chararray,product:chararray,city:chararray,state:chararray,type:chararray);
+
+F. Group transactions by customer
+=================================
+txnbycust = group txn by custid;
+
+G. Sum total amount spent by each customer
+==========================================
+spendbycust = foreach txnbycust generate group, SUM(txn.amount);
+
+H. Order the customer records beginning from highest spender
+============================================================
+custorder = order spendbycust by $1 desc;
+
+I. Select only top 100 customers
+================================
+top100cust = limit custorder 100;
+
+J. Join the transactions with customer details
+==============================================
+top100join = join top100cust by $0, cust by $0;
+describe top100join;
+
+K. Select the required fields from the join for final output
+============================================================
+top100 = foreach top100join generate $0,$3,$4,$5,$6,$1;
+describe top100;
+
+L.Dump the final output
+=======================
+dump top100;

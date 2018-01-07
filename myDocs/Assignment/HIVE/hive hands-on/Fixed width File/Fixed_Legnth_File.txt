@@ -1,0 +1,22 @@
+CREATE TABLE employees_stg (emplid STRING, name STRING, age STRING, salary STRING, dept STRING)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.RegexSerDe'
+WITH SERDEPROPERTIES (
+     "input.regex" = "(.{4})(.{35})(.{3})(.{11})(.{4})",     --Length of each column specified between braces "({})"
+     "output.format.string" = "%1$s %2$s %3$s %4$s %5$s"     --Output in string format
+     )
+LOCATION 'hdfs://nn1.cluster.com:9000//hive_sample_data';
+
+LOAD DATA INPATH '/path/to/sample_file.txt' INTO TABLE employees_stg;
+
+SELECT * FROM employees_stg;
+LOCATION '/path/to/input/employees_stg';
+
+
+EID NAME                               AGESALARY     DEPT
+1001Subbayya Sivasankaranarayana Pillai 25   25000.00HR  
+1002Raj Chandra Bose                    27  310000.00FIN 
+1003Tirukkannapuram Vijayaraghavan      30   44000.00MKT 
+1004Dattaraya Ramchandra Kaprekar       21   82345.00EDU 
+1005Samarendra Nath Roy                 24  123456.00ADM 
+1006 Madame Curie                       26  723456.00SCI 
+1007 Rosalind Franklin                  23  321456.00SCI 
