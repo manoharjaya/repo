@@ -1,0 +1,67 @@
+	START APACHE
+
+systemctl start  httpd.service
+
+
+    APACHE LOGS 
+
+tail -f /var/log/httpd/error_log
+
+
+go to 
+
+/etc/httpd/conf.d
+
+then add 
+
+<Location /repo>
+DAV svn
+SVNPath /svn/repo
+AuthName "SVN Repos"
+AuthType Basic
+AuthUserFile /etc/svn/svn-auth
+#AuthzSVNAccessFile /svn/repo/authz
+Require valid-user
+</Location>
+
+
+
+
+-----------------------------------------------------------------------
+
+	SVN IMPORT
+
+#svn import /home/manohar/myDocs/pgm/ file:///svn/repo/pgm -m "Program repository"
+
+
+	SVN CHECKOUT
+------------------------
+
+
+#sudo svn co file:///svn/repo/pgm/ /home/manohar/Desktop/svn_practice/
+
+	SVN COMMIT
+------------------------
+
+svn commit /home/manohar/myDocs/Docs/startApacheSVN.txt file:///svn/repo/Docs/startApacheSVN.txt -m "new  changes adding svn list on nov 23"
+
+	SVN DELETE
+----------------------
+	
+svn delete file:///svn/repo/Docs/START\ APACHE -m "remove all on nov 23"
+
+
+	SVN LIST
+-----------------------
+
+
+svn list --verbose file:///svn/repo
+
+
+
+
+#svn commit myDocs/pgm/ file:///svn/repo/
+
+
+
+svn update 

@@ -1,0 +1,142 @@
+sqoop import \
+--connect jdbc:mysql://localhost/shrikant_db  \
+--username root \
+--password root \
+--table students \
+-m 1 \
+--target-dir /sqoop_import_01
+
+sqoop import \
+--connect jdbc:mysql://localhost/shrikant_db  \
+--username root \
+--password root \
+--table students \
+-m 1 \
+--split-by addr \
+--target-dir /sqoop_import_01
+
+sqoop import \
+--connect jdbc:mysql://localhost/shrikant_db  \
+--username root \
+--password root \
+--table students \
+--incremental append \
+--last-value 6 \
+--check-column student_id \
+-m 2 \
+--split-by addr \
+--target-dir /sqoop_import_02
+
+
+sqoop import \
+--connect jdbc:mysql://localhost/shrikant_db  \
+--username root \
+--password root \
+--table students \
+--split-by student_id \
+-m 2 \
+--target-dir /hadoop_test_14
+
+=============
+Import into HIVE Table
+
+sqoop import 
+--connect jdbc:mysql://localhost/shrikant_db  \
+--username root \
+--password root \
+--hive-database retail \
+--table students \
+--hive-import \
+-m 1 
+
+=============
+Import into HBASE 
+create table with CF and then run following command:
+Make sure your HBASE is running.
+
+sqoop import --connect  jdbc:mysql://localhost/shrikant_db \
+--username root \
+--P \
+--table students \
+--hbase-table ht3 \
+--column-family cf3 \
+--hbase-row-key student_id \
+--hbase-create-table -m 1
+===============================
+
+export from HDFS to MYSQL
+
+sqoop export \
+--connect jdbc:mysql://localhost/shrikant_db  \
+--table students \
+--username root \
+--password root \
+-m 1 \
+--export-dir /hadoop_test_14  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+we need to place a mysql.jar on sqoop folder 
+
+
+
+
+sqoop import \
+--connect jdbc:mysql://localhost/test  \
+--username root \
+--password root \
+--table product \
+-m 1 \
+--target-dir /sqoop_import_01_10_sep
+
+
+
+sqoop import \
+--connect jdbc:mysql://localhost/test  \
+--username root \
+--password root \
+--table product \
+-m 2 \                       # map reduce job 2
+--split-by p_id \            # based on hash partition // must provide 
+--target-dir /sqoop_import_02_10_sep      #destination dir
+
+
+
+sqoop import \
+--connect jdbc:mysql://localhost/test  \
+--username root \
+--password root \
+--table product \
+--incremental append \       // add the row upto your data
+--last-value 4 \             // after 4 im going to add
+--check-column p_id \		//  check any column if p_id is there in db
+-m 1 \
+--target-dir /sqoop_import_incremental_append_03_10_sep
+
+
+
+
+
+sqoop export \
+--connect jdbc:mysql://localhost/test  \
+--table product \
+--username root \
+--password root \
+-m 1 \
+--export-dir /sqoop_import_incremental_append_03_10_sep
+
+
+

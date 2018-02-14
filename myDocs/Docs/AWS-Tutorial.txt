@@ -1,0 +1,36 @@
+
+
+
+													AWS
+								---------------------------------------
+
+EC2
+--------
+
+ssh -i "myFirstInstance.pem" ec2-user@ec2-18-217-116-56.us-east-2.compute.amazonaws.com
+
+
+
+http://ec2-18-217-116-56.us-east-2.compute.amazonaws.com:50070
+
+
+
+sbt 
+
+
+spark-submit --class wordcount --master local[2] scala-Examples/wordcount/target/scala-2.11/hello.jar 
+file:///   file:///
+
+
+
+on relative path
+
+
+
+sbt package
+
+
+sbt run
+
+
+#spark-submit --class Hello --master local[2] target/scala-2.11/hello_2.11-1.0.jar

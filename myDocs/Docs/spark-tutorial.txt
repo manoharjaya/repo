@@ -1,0 +1,305 @@
+
+
+
+
+
+
+
+													SPARK 
+													----------
+
+
+
+
+
+
+Main entry point for Spark functionality. A SparkContext represents the connection to a Spark cluster,
+and can be used to create RDDs, accumulators and broadcast variables on that cluster.
+
+
+>spark-shell
+
+
+----------------------------------------------------------------------
+
+
+LOCAL FILE SYSTEM
+------------------
+
+file:///home/manohar/myDocs/dataset/
+
+
+hdfs://mad:9000/words.txt
+
+
+s3:------------------
+
+
+-------------------------------------------------------------------------
+
+ 
+var rdd1=sc.textFile("file:///home/manohar/myDocs/dataset/");
+
+
+resilient data set 
+
+spark context
+
+
+
+
+
+val a=10
+
+val lst=List(1,2,3,4,5,6,7,8,9)
+
+
+var lst_rdd=sc.
+
+
+
+
+
+
+
+
+
+var lst_rdd=sc.parallelize(lst)
+
+rdd1.take(5)
+
+// var rdd2=rdd1.flatmap(ln=>(split(" ")))                                         
+
+
+
+var rdd2=rdd1.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)  ------>   (car,[1,1,1,1]) -----> (car,4)
+
+var rdd2=rdd1.flatmap(ln=>(split(" "))).map(wd=>(wd,1)).reduceByKey((v1,v2)=>(v1+v2))   ------>   (car,[1,1,1,1]) -----> (car,4)
+
+
+
+rdd2.foreach(println)
+
+
+
+------------------------------------------------------------------------
+
+
+
+verbose 
+
+
+
+----------------------------------------------------------------------------------------------------------
+
+
+
+var rdd1=sc.textFile("file:///home/manohar/myDocs/dataset/Input.txt");
+
+var rdd2=rdd1.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)  
+
+rdd2.foreach(println)
+
+rdd2.saveAsTextFile("file:///home/manohar/resource/output/spark/output_spark_Dec_2_15:51")
+
+
+
+--------------------------------------------
+
+
+COUNT
+---------
+
+sc.textFile("file:///home/manohar/resource/dataset/name.txt").count()
+
+sc.textFile("file:///home/manohar/resource/dataset/name.txt").foreach(println)
+
+
+------------------------------------------------------------------------------------------
+
+
+
+scala> var babynames=sc.textFile("file:////home/manohar/resource/dataset/baby_names.csv");
+
+
+scala> babynames.count()
+
+scala> babynames.first();
+
+
+scala> var rows=babynames.map(line => line.split(","))
+
+
+scala> rows.map(row => row(2)).distinct.count
+
+
+
+var davidRows=rows.filter(row => row(1).contains("DAVID"))
+
+
+davidRows.filter(row => row(4).toInt>10).count()
+
+
+
+
+
+
+1)START-ALL.SH FROM SPARK
+--------------------------
+
+spark-submit  --class WordCount --master  local[2] /home/manohar/resource/sparkjar/wordcount.jar /home/manohar/resource/dataset/Input.txt /home/manohar/resource/output/spark/spark_out_dec_17
+
+
+2)SPARK CLUSTER
+---------------
+spark-submit  --class WordCount --master  spark://mad:7077 /home/manohar/jar/sparkjar/wordcount.jar /home/manohar/resource/dataset/Input.txt /home/manohar/resource/output/spark/spark_out_jan_7
+
+spark-submit  --class WordCount --master spark://localhost:7077 /home/manohar/Documents/spark-Example/WordCount_dec_24/target/scala-2.11/wordcount_2.11-1.0.jar
+
+
+3)START-ALL.SH FROM HADOOP
+--------------------------
+
+	configure spark-env.sh on below line
+
+	export HADOOP_CONF_DIR=/home/manohar/hadoop/etc/hadoop
+
+
+spark-submit  --class WordCount --master  yarn --deploy-mode cluster /home/manohar/resource/sparkjar/wordcount.jar /input/Input.txt /output/spark/spark_yarn_out_dec_24
+
+
+spark-submit  --class WordCount --master yarn-cluster /home/manohar/Documents/spark-Example/WordCount_dec_24/target/scala-2.11/wordcount_2.11-1.0.jar
+
+
+
+
+
+
+val x = sc.parallelize(List("Hello Manohar","welcome Hello world", "learn data structure Manohar"));
+
+
+
+TRANSFORMATIONS(map,filter,flatMap,reduceByKey,groupBy)
+-------------------------------------
+
+val y=x.map(x => (x,1)) or val y = x.map((_,1));
+
+
+ACTIONS(collect(),first(),count(),saveAsTextFile())
+----------------------------------------------------
+
+y.collect();
+
+
+
+
+SPLIT() USING MAP()  //map gives array of array
+--------------------
+val y = x.map(x => x.split(" ")); // Array[Array[String]] = Array(Array(hello, manohar), Array(welcome, hello, world), Array(learn, data, structure, manohar))
+
+		
+			or
+
+val y = x.map(_.split(" "));
+
+
+SPLIT() USING FLATMAP()  // array of string
+------------------------
+
+
+val y = x.flatMap(x => x.split(" "));
+
+			or
+
+val y = x.flatMap(_.split(" "));    //Array[String] = Array(hello, manohar, welcome, hello, world, learn, data, structure, manohar)
+
+
+val z = y.map(y => (y,1))
+
+			or 
+
+val z = y.map((_,1))
+
+			or
+
+val y = x.flatMap(x => (x.split(" "))).map(x => (x,1));  // write it as single statement 
+
+
+
+
+REDUCEBYKEY()
+------------------
+
+val z = y.reduceByKey((a,b)=>(a+b));
+
+		or
+
+
+val z = y.reduceByKey(_+_);
+
+
+
+FILTER
+---------
+
+
+val filterdata = x.filter(w => w%2==0)
+
+filterdata.collect;
+
+
+val filterdata = x.filter(_%2==0)
+
+filterdata.collect;
+
+
+REDUCE     // reduce does sum 
+--------
+
+val intArray = sc.parallelize(List(1,2,3,4,5));
+
+
+val reducedata = intArray.reduce(_+_)
+
+
+GROUPBY
+---------
+
+val y = x.groupBy(x => x.charAt(0));
+
+y.collect
+
+
+dec 25
+-------------
+
+val textfile = spark.read.textFile("/home/manohar/spark/README.md")
+
+textfile.count
+
+
+textfile.first
+
+
+val lineswithspark = textfile.filter(_.contains("Spark"))
+
+
+lineswithspark.collect;
+
+		(or)
+
+val lineswithspark = textfile.filter(_.contains("Spark")).count  // transformation + action
+
+
+
+val y  = x.map(_.length).reduce((a,b) => if(a>b) a else b);   // gives maximum no
+
+y.collect
+
+
+val lineswithspark = file.filter(_.contains("spark")).map(_.size).reduce((a,b) => if (a>b) a else b );
+
+
+
+
+

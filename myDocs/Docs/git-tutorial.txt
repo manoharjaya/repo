@@ -1,0 +1,44 @@
+
+git remote add origin https://github.com/manoharjaya/repo.git
+
+
+git clone https://github.com/manoharjaya/repo.git
+
+
+git add  welcome.txt
+
+
+git status
+
+
+git commit welcome.txt -m "welcome is commit"
+
+
+git log --oneline 
+
+
+git config --global user.email "manoharjaya@gmail.com"
+
+
+git config --global user.name "manoharjaya"
+
+
+git push -u origin master
+
+
+git branch Demo
+
+git branch
+
+git checkout Demo
+
+
+
+
+git push origin +Docs
+
+
+
+
+
+
