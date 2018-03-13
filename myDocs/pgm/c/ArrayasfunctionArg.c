@@ -21,6 +21,11 @@
 // }
 
 
+
+
+
+
+
 void SumofElements(int a[])
 {
 	printf("%d\n",a);
@@ -47,3 +52,4 @@ int main(int argc, char const *argv[])
 
 	return 0;
 }
+
