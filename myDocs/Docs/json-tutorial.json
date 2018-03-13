@@ -1,0 +1,169 @@
+JSON Data - A Name and a Value
+
+"name":"John"
+
+
+----------------------------------------------
+
+
+1)Both JSON and XML can be used to receive data from a web server
+
+2)The following JSON and XML examples both defines an employees object, with an array of 3 employees:
+
+
+{"employees":[
+    { "firstName":"John", "lastName":"Doe" },
+    { "firstName":"Anna", "lastName":"Smith" },
+    { "firstName":"Peter", "lastName":"Jones" }
+]}
+
+
+<employees>
+    <employee>
+        <firstName>John</firstName> <lastName>Doe</lastName>
+    </employee>
+    <employee>
+        <firstName>Anna</firstName> <lastName>Smith</lastName>
+    </employee>
+    <employee>
+        <firstName>Peter</firstName> <lastName>Jones</lastName>
+    </employee>
+</employees>
+
+-----------------------------------------------------------------
+
+
+
+Why JSON is Better Than XML
+
+
+1)XML is much more difficult to parse than JSON.
+2)JSON is parsed into a ready-to-use JavaScript object.
+
+
+For AJAX applications, JSON is faster and easier than XML:
+
+Using XML
+
+	Fetch an XML document
+	Use the XML DOM to loop through the document
+	Extract values and store in variables
+	Using JSON
+
+	Fetch a JSON string
+	JSON.Parse the JSON string
+
+
+----------------------------------------------------------------
+
+
+JSON Strings
+	1)Strings in JSON must be written in double quotes
+
+	{ "name":"John" }
+
+JSON Numbers
+	1)Numbers in JSON must be an integer or a floating point.
+
+	{ "age":30 }
+
+JSON Objects
+	1)Values in JSON can be objects.
+
+	{
+		"employee":{ "name":"John", "age":30, "city":"New York" }
+	}
+
+JSON Arrays
+	1)Values in JSON can be arrays
+	
+	{
+		"employees":[ "John", "Anna", "Peter" ]
+	}
+
+JSON Booleans
+	1)Values in JSON can be true/false.
+
+	{ "sale":true }
+
+JSON null
+	1)Values in JSON can be null.
+
+	{ "middlename":null }
+
+-----------------------------------------------------
+
+
+
+JSON OBJECTS
+
+	Object Syntax
+
+	{ "name":"John", "age":30, "car":null }
+
+
+	JSON objects are surrounded by curly braces {}.
+
+	JSON objects are written in key/value pairs.
+
+	Keys must be strings, and values must be a valid JSON data type (string, number, object, array, boolean or null).
+
+	Keys and values are separated by a colon.
+
+	Each key/value pair is separated by a comma.
+
+
+
+NESTED JSON OBJECTS
+	
+	Values in a JSON object can be another JSON object.
+
+	myObj = {
+    "name":"John",
+    "age":30,
+    "cars": {
+        "car1":"Ford",
+        "car2":"BMW",
+        "car3":"Fiat"
+   			}
+ 	}
+
+---------------------------------------------------------------
+
+
+ARRAYS AS JSON OBJECTS
+
+	[ "Ford", "BMW", "Fiat" ]
+
+	1)Arrays in JSON are almost the same as arrays in JavaScript.
+
+	2)In JSON, array values must be of type string, number, object, array, boolean or null.
+
+	3)In JavaScript, array values can be all of the above, plus any other valid JavaScript expression, including functions, dates, and undefined.
+
+
+
+
+	Arrays in JSON Objects
+
+		1)Arrays can be values of an object property:
+	
+			{
+				"name":"John",
+				"age":30,
+				"cars":[ "Ford", "BMW", "Fiat" ]
+			}
+
+	Nested Arrays in JSON Objects
+		
+		1)Values in an array can also be another array, or even another JSON object:
+
+			myObj = {
+					    "name":" ",
+					    "age":30,
+					    "cars": [
+					        { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
+					        { "name":"BMW", "models":[ "320", "X3", "X5" ] },
+					        { "name":"Fiat", "models":[ "500", "Panda" ] }
+					    ]
+ 					}
