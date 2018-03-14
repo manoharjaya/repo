@@ -549,3 +549,20 @@ RESTORE database
 CREATE database fieldsense;
 
 mysql -u root -p fieldsense < fieldsense_fieldsensestats_db.sql
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+				MULTI JOIN 
+			--------------------------
+
+
+
+
+ SELECT c.customer_name, a.appointment_time, a.appointment_end_time,p.purpose  FROM customers as c  INNER JOIN appointments as a  ON a.customer_id_fk=c.id INNER JOIN fieldsense.users as u ON a.user_id_fk= u.id  INNER JOIN activity_purpose as p ON a.purpose_id_fk= p.id  WHERE a.appointment_time="2018-03-14 12:19:00" AND a.appointment_end_time="2018-03-14 01:19:00" AND  c.record_state !=3 \G
+
