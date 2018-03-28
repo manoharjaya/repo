@@ -1,4 +1,17 @@
+from csv import reader
 from math import sqrt
+
+# Load a CSV file
+def load_csv(filename):
+	file = open(filename, "rb")
+	lines = reader(file)
+	dataset = list(lines)
+	return dataset
+
+# Convert string column to float
+def str_column_to_float(dataset, column):
+	for row in dataset:
+		row[column] = float(row[column].strip())
 
 # calculate column means
 def column_means(dataset):
@@ -23,14 +36,19 @@ def standardize_dataset(dataset, means, stdevs):
 		for i in range(len(row)):
 			row[i] = (row[i] - means[i]) / stdevs[i]
 
-# Standardize dataset
-dataset = [[50, 30], [20, 90], [30, 50]]
-print(dataset)
+# Load pima-indians-diabetes dataset
+filename = 'pima-indians-diabetes.csv'
+dataset = load_csv(filename)
+print('Loaded data file {0} with {1} rows and {2} columns').format(filename, len(dataset), len(dataset[0]))
+# convert string columns to float
+for i in range(len(dataset[0])):
+	str_column_to_float(dataset, i)
+print(dataset[0])
 # Estimate mean and standard deviation
 means = column_means(dataset)
 stdevs = column_stdevs(dataset, means)
-print(means)
-print(stdevs)
 # standardize dataset
 standardize_dataset(dataset, means, stdevs)
-print(dataset)
+print(dataset[0])
+
+
