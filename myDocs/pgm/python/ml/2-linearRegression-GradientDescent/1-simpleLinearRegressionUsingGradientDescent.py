@@ -25,7 +25,7 @@ def predict(row, coefficients):
 
 # Estimate linear regression coefficients using stochastic gradient descent
 def coefficients_sgd(train, l_rate, n_epoch):
-	coef = [0.0 for i in range(len(train[0]))]  # [1,1] 
+	coef = [0.0 for i in range(len(train[0]))]  # coef=[0.0,0.0] 
 	print "coef",coef   #[0.0 0.0]
 	for epoch in range(n_epoch):  # 5
 		sum_error = 0

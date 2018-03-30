@@ -8,9 +8,9 @@ def load_csv(filename):
 	return dataset
 
 # Convert string column to float
-def str_column_to_float(dataset, column):
-	for row in dataset:
-		row[column] = float(row[column].strip())
+def str_column_to_float(dataset, column):   # column = 0
+	for row in dataset:   #['6','148','72',35,0,33.6,0.627,50,1],['1','85',66,29,0,26.6,0.351,31,0]
+		row[column] = float(row[column].strip())  # string to float  , row[0]=[6], row[0]=[1]  for above given dataset
 
 # Find the min and max values for each column
 def dataset_minmax(dataset):
@@ -23,29 +23,28 @@ def dataset_minmax(dataset):
 	return minmax
 
 # Rescale dataset columns to the range 0-1
-def normalize(dataset, minmax):
+def normalize_dataset(dataset, minmax):
 	for row in dataset:
 		for i in range(len(row)):
 			row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
 
 # Load pima-indians-diabetes dataset
-#filename = '/home/manohar/Downloads/winequality-white.csv'
 filename = 'pima-indians-diabetes.csv'
-
 dataset = load_csv(filename)
-#print "data=",dataset[0]
 print('Loaded data file {0} with {1} rows and {2} columns').format(filename, len(dataset), len(dataset[0]))
 # convert string columns to float
 for i in range(len(dataset[0])):
 	str_column_to_float(dataset, i)
-print("dataset[0]=",dataset[0])
+
+print 
+print "The first record from the dataset is printed before and after normalization, showing the effect of the scaling."
+print(dataset[0])
 # Calculate min and max for each column
 minmax = dataset_minmax(dataset)
-
-print "minmax=",minmax
 # Normalize columns
-normalize(dataset, minmax)
-#print(dataset[0])
+normalize_dataset(dataset, minmax)
+print(dataset[0])
 
-#print dataset
+
+
 
