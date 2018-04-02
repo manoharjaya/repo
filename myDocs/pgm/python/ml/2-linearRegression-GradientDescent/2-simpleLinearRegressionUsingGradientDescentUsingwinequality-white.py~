@@ -8,26 +8,26 @@ from math import sqrt
 def load_csv(filename):
 	dataset = list()
 	with open(filename, 'r') as file:
-		csv_reader = reader(file)
-		for row in csv_reader:
+		csv_reader = reader(file)       # 7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6
+		for row in csv_reader:          
 			if not row:
 				continue
-			dataset.append(row)
+			dataset.append(row)   #[[7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6],....]
 	return dataset
 
 # Convert string column to float
 def str_column_to_float(dataset, column):
-	for row in dataset:
-		row[column] = float(row[column].strip())
+	for row in dataset:  #7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6
+		row[column] = float(row[column].strip())    # row[0]=['7,0']=[7.0]
 
 # Find the min and max values for each column
 def dataset_minmax(dataset):
 	minmax = list()
-	for i in range(len(dataset[0])):
-		col_values = [row[i] for row in dataset]
-		value_min = min(col_values)
-		value_max = max(col_values)
-		minmax.append([value_min, value_max])
+	for i in range(len(dataset[0])): #len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6])=12
+		col_values = [row[i] for row in dataset] # col_values=[[7.0],[6.3],[8.1]]
+		value_min = min(col_values)   # value_min=6.3
+		value_max = max(col_values)  # value_max=8.1
+		minmax.append([value_min, value_max])   # minmax = [[[6.3],[8.1]],[]]
 	return minmax
 
 # Rescale dataset columns to the range 0-1
@@ -39,14 +39,18 @@ def normalize_dataset(dataset, minmax):
 # Split a dataset into k folds
 def cross_validation_split(dataset, n_folds):
 	dataset_split = list()
-	dataset_copy = list(dataset)
+	dataset_copy = list(dataset) # dataset
+	print "dataset_copy=",len(dataset_copy)  #dataset_copy= 4898
+						 #fold_size= 979
 	fold_size = int(len(dataset) / n_folds)
-	for i in range(n_folds):
+	print "fold_size=",fold_size
+	for i in range(n_folds):  # 5 
 		fold = list()
-		while len(fold) < fold_size:
+		while len(fold) < fold_size:  # 0 < 979
 			index = randrange(len(dataset_copy))
 			fold.append(dataset_copy.pop(index))
 		dataset_split.append(fold)
+		print "%d fold last data\n"%(i+1),fold[-1]
 	return dataset_split
 
 # Calculate root mean squared error
@@ -62,15 +66,24 @@ def rmse_metric(actual, predicted):
 def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 	folds = cross_validation_split(dataset, n_folds)
 	scores = list()
-	for fold in folds:
-		train_set = list(folds)
-		train_set.remove(fold)
-		train_set = sum(train_set, [])
-		test_set = list()
-		for row in fold:
-			row_copy = list(row)
-			test_set.append(row_copy)
-			row_copy[-1] = None
+	print "len(folds)=",len(folds)
+	print "before =",folds[-1]  # last fold contains folds[-1]=[[],[].....979] 979 rows 
+	for fold in folds:  # [[0.21153846153846159, 0.34313725490196073, 0.20481927710843376, 0.10736196319018404, 0.10682492581602374, 0.080139372822299645, 						0.25290023201856149, 0.098515519568150203, 0.28181818181818158, 0.17441860465116277, 0.48387096774193555, 0.5],....]  
+		train_set = list(folds)  # train_set = list(5) 
+                #print "before train_set=",train_set[-1]
+		train_set.remove(fold)   #  remove perticular fold from the train_set 
+		train_set = sum(train_set, [])  # convert [[1], [2], [3], [4], [5]] into  [1, 2, 3, 4, 5]
+		print "after train_set=",train_set[-1] 
+		test_set = list()  
+		for row in fold:  # take first value from fold = 0.21153846153846159
+			row_copy = list(row)  # 
+			#print "list(row)=",row  # [0.22115384615384617, 0.22549019607843135, 0.15662650602409639, 0.024539877300613498, 0.12462908011869436, 0.090592334494773524, 0.36658932714617171, 0.10584152689415843, 0.59090909090909105, 0.29069767441860461, 0.38709677419354849, 0.5]
+
+
+			test_set.append(row_copy)  # test_set = [[0.21153846153846159,,,,,,,,,,None],[],[]]
+			row_copy[-1] = None    # row_copy=[0.21153846153846159,,,,,,,,,,,None]  
+			#print "row_copy=",row_copy  
+
 		predicted = algorithm(train_set, test_set, *args)
 		actual = [row[-1] for row in fold]
 		rmse = rmse_metric(actual, predicted)
@@ -78,7 +91,7 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 	return scores
 
 # Make a prediction with coefficients
-def predict(row, coefficients):
+def predict(row, coefficients):   
 	yhat = coefficients[0]
 	for i in range(len(row)-1):
 		yhat += coefficients[i + 1] * row[i]
@@ -86,8 +99,10 @@ def predict(row, coefficients):
 
 # Estimate linear regression coefficients using stochastic gradient descent
 def coefficients_sgd(train, l_rate, n_epoch):
-	coef = [0.0 for i in range(len(train[0]))]
-	for epoch in range(n_epoch):
+	coef = [0.0 for i in range(len(train[0]))] # coef=[0.0,0.0,,,,,,,,,]
+	#print "coef=",len(coef) # 12
+	#print "coef=",coef[-1]
+	for epoch in range(n_epoch): 
 		for row in train:
 			yhat = predict(row, coef)
 			error = yhat - row[-1]
@@ -111,8 +126,8 @@ seed(1)
 # load and prepare data
 filename = '/home/manohar/Downloads/winequality-white.csv'
 dataset = load_csv(filename)
-for i in range(len(dataset[0])):
-	str_column_to_float(dataset, i)
+for i in range(len(dataset[0])):   # len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6]) => range(12)
+	str_column_to_float(dataset, i) # (dataset,0)
 # normalize
 minmax = dataset_minmax(dataset)
 normalize_dataset(dataset, minmax)
