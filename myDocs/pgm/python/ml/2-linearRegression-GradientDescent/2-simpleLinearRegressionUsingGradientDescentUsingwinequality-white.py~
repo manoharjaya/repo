@@ -105,7 +105,7 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 		scores.append(rmse)
 	return scores
 
-# Make a prediction with coefficients
+# Make a prediction with coefficients  y=b0+b1x
 def predict(row, coefficients):   
 	yhat = coefficients[0]
 	for i in range(len(row)-1):    # last value will be None in dataset
@@ -114,15 +114,16 @@ def predict(row, coefficients):
 
 # Estimate linear regression coefficients using stochastic gradient descent
 def coefficients_sgd(train, l_rate, n_epoch):
+	#print "train=",len(train[0]) # 12
 	coef = [0.0 for i in range(len(train[0]))] # coef=[0.0,0.0,,,,,,,,,]
 	#print "coef=",len(coef) # 12
 	#print "coef=",coef[-1]
 	for epoch in range(n_epoch): 
 		for row in train:
 			# print "row=",row[-1]  #   0.5 
-			yhat = predict(row, coef)
-			error = yhat - row[-1]
-			print "error=",error   # -0.5
+			yhat = predict(row, coef)  # [0.21153846153846159, 0.34313725490196073, 0.20481927710843376, 0.10736196319018404, 0.10682492581602374, 0.080139372822299645,0.25290023201856149, 0.098515519568150203, 0.28181818181818158, 0.17441860465116277, 0.48387096774193555, 0.5] => [(11,1)]  ie 11 values is x and y is 1
+			error = yhat - row[-1]        
+			#print "error=",error   # -0.5
 			coef[0] = coef[0] - l_rate * error
 			for i in range(len(row)-1):
 				coef[i + 1] = coef[i + 1] - l_rate * error * row[i]
@@ -133,18 +134,21 @@ def coefficients_sgd(train, l_rate, n_epoch):
 def linear_regression_sgd(train, test, l_rate, n_epoch):
 	predictions = list()
 	coef = coefficients_sgd(train, l_rate, n_epoch)
-	for row in test:
-		yhat = predict(row, coef)
+	#print "coef=",coef
+	for row in test:  # test dataset is applying
+		yhat = predict(row, coef)  #
+		#print "yhat=",yhat
 		predictions.append(yhat)
 	return(predictions)
 
 # Linear Regression on wine quality dataset
 seed(1)
 # load and prepare data
-# filename = '/home/manohar/Downloads/winequality-white.csv'
-filename = '/home/manohar/resource/dataset/winequality-white.csv'
+filename = '/home/manohar/Downloads/winequality-white.csv'
+#filename = '/home/manohar/resource/dataset/winequality-white.csv'
 
 dataset = load_csv(filename)
+#print "dataset=",dataset
 for i in range(len(dataset[0])):   # len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6]) => range(12)
 	str_column_to_float(dataset, i) # (dataset,0)
 # normalize
