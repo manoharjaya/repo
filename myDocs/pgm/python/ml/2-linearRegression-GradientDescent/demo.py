@@ -4,90 +4,46 @@ from random import randrange
 from csv import reader
 from math import sqrt
 
+
+
 # Load a CSV file
 def load_csv(filename):
 	dataset = list()
-	with open(filename, 'r') as file:
-		csv_reader = reader(file)
-		for row in csv_reader:
-		#	print "row=",row
+	with open(filename, 'r') as file:   # 
+		csv_reader = reader(file)       # 7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6
+
+		# print "csv_reader=",csv_reader
+		for row in csv_reader:          
 			if not row:
 				continue
-			dataset.append(row)
+			dataset.append(row)   #[[7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6],....]
 	return dataset
 
+
+
 # Convert string column to float
-def str_column_to_float(dataset, column):  # (whole dataset  , 0)
-	for row in dataset:  #taking first row   ['7', '0.27', '0.36', '20.7', '0.045', '45', '170', '1.001', '3', '0.45', '8.8', '6']
-		row[column] = float(row[column].strip())  # take out '7' from given and covert into float list [7.0,6.3,..]
-		# print "row[column]=",row[column]
-		# print "--------------"
+def str_column_to_float(dataset, column):
+	for row in dataset:  #7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6
+		row[column] = float(row[column].strip())    # row[0]=['7,0']=[7.0]
 
 
 # Find the min and max values for each column
 def dataset_minmax(dataset):
 	minmax = list()
-	print "len=dataset[0]",len(dataset[0])
-
-	for i in range(len(dataset[0])): # ['7', '0.27', '0.36', '20.7', '0.045', '45', '170', '1.001', '3', '0.45', '8.8', '6']
-		# print dataset[i]
-		col_values = [row[i] for row in dataset] # taking first row ['7', '0.27', '0.36', '20.7', '0.045', '45', '170', '1.001', '3', '0.45', '8.8', '6']
-	        #print col_values      # print [7.0]
-		value_min = min(col_values)  
-		value_max = max(col_values)
-		#print "min,=",value_min,value_max
-		minmax.append([value_min, value_max])
+	for i in range(len(dataset[0])): #len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6])=12
+		col_values = [row[i] for row in dataset] # col_values=[[7.0],[6.3],[8.1]]
+		value_min = min(col_values)   # value_min=6.3
+		value_max = max(col_values)  # value_max=8.1
+		minmax.append([value_min, value_max])   # minmax = [[[6.3],[8.1]],[]]
 	return minmax
 
 
 
 # Rescale dataset columns to the range 0-1
-def normalize_dataset(dataset, minmax):
-	for row in dataset:
-		for i in range(len(row)):
-			row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0]) # [7]-
-			#print "row normal=",row[i] 
-	#row[0] = (row[0] - minmax[0][0]) / (minmax[0][1] - minmax[0][0]) # [7]-
-			#print "row[0]=",row[i],minmax[i][0],minmax[i][1],minmax[i][0]
-
-
-
-
-# Split a dataset into k folds
-def cross_validation_split(dataset, n_folds):
-	dataset_split = list()
-	dataset_copy = list(dataset)
-	fold_size = int(len(dataset) / n_folds)
-	for i in range(n_folds):
-		fold = list()
-		while len(fold) < fold_size:
-			index = randrange(len(dataset_copy))
-			fold.append(dataset_copy.pop(index))
-		dataset_split.append(fold)
-	return dataset_split
-
-
-
-
-
-# Evaluate an algorithm using a cross validation split
-def evaluate_algorithm(dataset, algorithm, n_folds, *args):
-	folds = cross_validation_split(dataset, n_folds)
-	scores = list()
-	for fold in folds:
-		train_set = list(folds)
-		train_set.remove(fold)
-		train_set = sum(train_set, [])
-		test_set = list()
-		for row in fold:
-			row_copy = list(row)
-			test_set.append(row_copy)
-			row_copy[-1] = None
-		predicted = algorithm(train_set, test_set, *args)
-		actual = [row[-1] for row in fold]
-		rmse = rmse_metric(actual, predicted)
-		scores.append(rmse)
-	return scores
+def normalize_dataset(dataset, minmax):  #  minmax= [[3.8, 14.2], [0.08, 1.1], [0.0, 1.66], [0.6, 65.8], [0.009, 0.346], [2.0, 289.0], [9.0, 440.0], [0.98711, 1.03898], [2.72, 3.82], [0.22, 1.08], [8.0, 14.2], [3.0, 9.0]]
+	for row in dataset:   
+		for i in range(len(row)):    #len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6])=12
+			row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])  # ((7.0-3.8)/(14.2-3.8))  => 0.307 , 0.186
 
 
 
@@ -95,18 +51,21 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 # Linear Regression on wine quality dataset
 seed(1)
 # load and prepare data
-filename = '/home/manohar/Downloads/winequality-white.csv'
+# filename = '/home/manohar/Downloads/winequality-white.csv'
+filename = '/home/manohar/resource/dataset/winequality-white.csv'
+
 dataset = load_csv(filename)
+# print dataset[0]
 
-print "len",len(dataset)
-#print "dataset[o]=",dataset[0]
-for i in range(len(dataset[0])):    #dataset[o]= ['7', '0.27', '0.36', '20.7', '0.045', '45', '170', '1.001', '3', '0.45', '8.8', '6']
-	str_column_to_float(dataset, i)  # (whole dataset  , 0)
+for i in range(len(dataset[0])):   # len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6]) => range(12)
+	str_column_to_float(dataset, i) # (dataset,0)
+# print dataset[0]
 
-# normalize
 minmax = dataset_minmax(dataset)
-print "minmax=",minmax
+# print "minmax=",minmax
+
 normalize_dataset(dataset, minmax)
+# print "normalize_dataset=",dataset[0]
 
 
 # evaluate algorithm
@@ -114,8 +73,4 @@ n_folds = 5
 l_rate = 0.01
 n_epoch = 50
 scores = evaluate_algorithm(dataset, linear_regression_sgd, n_folds, l_rate, n_epoch)
-print('Scores: %s' % scores)
-print('Mean RMSE: %.3f' % (sum(scores)/float(len(scores))))
-
-
 
