@@ -116,7 +116,7 @@ def logistic_regression(train, test, l_rate, n_epoch):
 # Test the logistic regression algorithm on the diabetes dataset
 seed(1)
 # load and prepare data
-filename = 'pima-indians-diabetes.csv'
+filename = 'pima-indians-diabetes1.csv'
 dataset = load_csv(filename)
 for i in range(len(dataset[0])):
 	str_column_to_float(dataset, i)
