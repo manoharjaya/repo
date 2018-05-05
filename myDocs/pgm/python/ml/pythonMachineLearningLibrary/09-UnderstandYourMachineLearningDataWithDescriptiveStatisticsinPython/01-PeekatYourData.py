@@ -4,5 +4,4 @@ import pandas
 url="dataset/pima-indians-diabetes.data.csv"
 names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
 data = pandas.read_csv(url, names=names)
-peek = data.head(20)
-print(peek)
+print(data.head(100))

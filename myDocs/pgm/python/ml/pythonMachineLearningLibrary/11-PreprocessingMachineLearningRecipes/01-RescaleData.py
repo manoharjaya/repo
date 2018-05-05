@@ -7,10 +7,11 @@ from sklearn.preprocessing import MinMaxScaler
 url='dataset/pima-indians-diabetes.data.csv'
 names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
 dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
+array12 = dataframe.values
+print "array12=",array12
 # separate array into input and output components
-X = array[:,0:8]
-Y = array[:,8]
+X = array12[:,0:8]
+Y = array12[:,8]
 scaler = MinMaxScaler(feature_range=(0, 1))
 rescaledX = scaler.fit_transform(X)
 # summarize transformed data
