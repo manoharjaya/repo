@@ -1,9 +1,11 @@
+
 import tensorflow as tf
 import numpy as np
 
 # Create 100 phony x, y data points in NumPy, y = x * 0.1 + 0.3
 x_data = np.random.rand(100).astype(np.float32)
 y_data = x_data * 0.1 + 0.3
+
 
 # Try to find values for W and b that compute y_data = W * x_data + b
 # (We know that W should be 0.1 and b 0.3, but Tensorflow will
@@ -31,3 +33,14 @@ for step in xrange(201):
         print(step, sess.run(W), sess.run(b))
 
 # Learns best fit is W: [0.1], b: [0.3]
+
+
+#print 'x_data=',sess.run(x_data)
+#print 'y_data=',sess.run(y_data)
+
+'''
+print 'W=',sess.run(W)
+print 'b=',sess.run(b)
+print 'y=',sess.run(y)
+
+'''
