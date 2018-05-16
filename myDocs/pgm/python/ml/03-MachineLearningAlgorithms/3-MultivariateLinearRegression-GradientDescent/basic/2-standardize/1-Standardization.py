@@ -2,7 +2,8 @@ from math import sqrt
 
 # calculate column means
 def column_means(dataset):
-	means = [0 for i in range(len(dataset[0]))]  # means =[0,0,0]
+	means = [0 for i in range(len(dataset[0]))]  # means =[0,0]
+	print 'means=',means
 	for i in range(len(dataset[0])): 
 		col_values = [row[i] for row in dataset] # col_values = [50,20,30] 
 		means[i] = sum(col_values) / float(len(dataset)) #  33.33

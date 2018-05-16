@@ -34,7 +34,7 @@ dataset = load_csv(filename)
 print('Loaded data file {0} with {1} rows and {2} columns').format(filename, len(dataset), len(dataset[0]))
 # convert string columns to float
 
-# print("before convert=",dataset[0])
+#print("before convert=",dataset[0])
 
 for i in range(len(dataset[0])):
 	str_column_to_float(dataset, i)

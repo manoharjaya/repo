@@ -1,3 +1,4 @@
+
 from random import seed
 from random import randrange
 
@@ -13,3 +14,5 @@ train = [[10], [15], [12], [15], [18], [20]]
 test = [[None], [None], [None], [None]]
 predictions = zero_rule_algorithm_regression(train, test)
 print(predictions)
+
+

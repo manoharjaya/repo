@@ -143,7 +143,7 @@ def linear_regression_sgd(train, test, l_rate, n_epoch):
 seed(1)
 # load and prepare data
 # filename = '/home/manohar/Downloads/winequality-white.csv'
-filename = '/home/manohar/resource/dataset/winequality-white.csv'
+filename = 'dataset/winequality-white.csv'
 
 dataset = load_csv(filename)
 for i in range(len(dataset[0])):   # len([7,0.27,0.36,20.7,0.045,45,170,1.001,3,0.45,8.8,6]) => range(12)

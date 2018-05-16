@@ -21,7 +21,7 @@ def coefficients_sgd(train, l_rate, n_epoch):
 			for i in range(len(row)-1):   
 				coef[i + 1] = coef[i + 1] - l_rate * error * row[i]   #  = 0.0-0.01*(-1)*1 => 0.01  2) 0.01-0.01*(-2.97)*2  => 0.06
 		print('>epoch=%d, lrate=%.3f, error=%.3f' % (epoch, l_rate, sum_error))
-		# print "coef=",coef
+		#print "coef=",coef
 	return coef
 
 # Calculate coefficients
