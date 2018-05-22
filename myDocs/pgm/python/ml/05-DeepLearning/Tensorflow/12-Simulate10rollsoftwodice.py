@@ -1,3 +1,4 @@
+
 import tensorflow as tf
 with tf.Graph().as_default(), tf.Session() as sess:
   # Task 2: Simulate 10 throws of two six-sided dice. Store the results

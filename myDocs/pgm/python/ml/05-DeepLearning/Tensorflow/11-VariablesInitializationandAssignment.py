@@ -11,7 +11,7 @@ g = tf.Graph()
 with g.as_default():
   # Create a variable with the initial value 3.
   v = tf.Variable([3])
-
+  shapeV=tf.shape(v)
   # Create a variable of shape [1], with a random initial value,
   # sampled from a normal distribution with mean 1 and standard deviation 0.35.
   w = tf.Variable(tf.random_normal([1], mean=1.0, stddev=0.35))
@@ -24,6 +24,7 @@ with g.as_default():
     # Now, variables can be accessed normally, and have values assigned to them.
     print v.eval()
     print w.eval()
+    print 'shapeV=',shapeV
 
 '''
 To change the value of a variable, use the assign op. Note that simply creating the assign op will not have any effect.
