@@ -1,0 +1,71 @@
+
+>redis-server
+
+>redis-cli
+
+
+127.0.0.1:6379> set name manohar
+
+127.0.0.1:6379> del name
+
+127.0.0.1:6379> get name
+
+127.0.0.1:6379> HMSET nameset "hello" "hi" "welcome" "change world"
+
+
+127.0.0.1:6379> HGETALL nameset
+1) "hello"
+2) "hi"
+3) "welcome"
+4) "change world"
+
+
+
+127.0.0.1:6379> LPUSH databases redis
+(integer) 1
+127.0.0.1:6379> LPUSH databases mysql mongodb
+(integer) 3
+127.0.0.1:6379> LPOP databases
+"mongodb"
+127.0.0.1:6379> LPOP databases
+"mysql"
+127.0.0.1:6379> LPOP databases
+"redis"
+
+
+
+'Redis Sets are an unordered collection of unique strings. Unique means sets does not allow repition of data in a key'
+
+127.0.0.1:6379> SADD databases redis
+(integer) 1
+127.0.0.1:6379> SADD databases mongodb mysql 
+(integer) 2
+127.0.0.1:6379> SMEMBERS databases
+1) "mysql"
+2) "redis"
+3) "mongodb"
+
+127.0.0.1:6379> LRANGE tutorial-list 0 2
+1) "Mysql"
+2) "Mongodb"
+3) "Redis"
+127.0.0.1:6379> 
+127.0.0.1:6379> 
+127.0.0.1:6379> get tutorial
+"Redis tutorial"
+127.0.0.1:6379> 
+127.0.0.1:6379> 
+127.0.0.1:6379> LPUSH country US IN CA
+(integer) 3
+127.0.0.1:6379> LRANGE country 0 2 
+1) "CA"
+2) "IN"
+3) "US"
+127.0.0.1:6379> LLEN name
+(integer) 0
+127.0.0.1:6379> LLEN country
+(integer) 3
+127.0.0.1:6379> 
+127.0.0.1:6379> LLEN tutorial-list
+(integer) 3
+

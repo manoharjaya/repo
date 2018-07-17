@@ -1,0 +1,39 @@
+set qlc 0 500 5
+hello
+STORED
+get qlc
+VALUE qlc 0 5
+hello
+END
+add qlc 0 500 5
+hello
+NOT_STORED
+add qlc 0 550 5
+hello
+NOT_STORED
+add qlc1 0 500 5
+hello
+STORED
+get qlc1
+VALUE qlc1 0 5
+hello
+END
+add temp 0 500 10
+manoharjay
+STORED
+get temp
+VALUE temp 0 10
+manoharjay
+END
+set temp 0 500 11
+hello world
+STORED
+get temp
+VALUE temp 0 11
+hello world
+END
+
+
+stats items
+
+stats cachedump 1 0
