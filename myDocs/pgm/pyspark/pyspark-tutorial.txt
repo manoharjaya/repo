@@ -1,0 +1,76 @@
+a=[1,2,3,4,5,6,7,8,9,10]
+
+a_rdd=sc.parallelize(a)
+
+print a
+
+
+-----------------------
+
+
+logFile='/home/manohar/spark/README.md'
+logData=sc.textFile(logFile).cache()
+logData=sc.textFile(logFile).count()
+numAs=logData.filter(lambda s : 'a' in s).count()
+numBs=logData.filter(lambda s : 'b' in s).count()
+print numAs,numBs
+
+------------------------END----------------------------
+
+
+
+TRANSFORMATIONS(map,filter,flatMap,reduceByKey,groupBy)
+---------------------------------------------------------
+
+namerdd=["scala", 
+   "java", 
+   "hadoop", 
+   "spark", 
+   "akka",
+   "spark vs hadoop", 
+   "pyspark",
+   "pyspark and spark"]
+
+
+parallelizenamerdd=sc.parallelize(namerdd)
+
+print parallelizenamerdd.first()
+
+print parallelizenamerdd.collect()
+
+print parallelizenamerdd.count()
+
+
+def foreachparallelizenamerdd(x):
+     print x
+
+foreachrdd=parallelizenamerdd.foreach(foreachparallelizenamerdd)
+
+filtersparkrdd=parallelizenamerdd.filter(lambda x: 'spark' in x)
+
+print filtersparkrdd.collect()
+
+wordmaprdd=parallelizenamerdd.map(lambda x:(x,1))
+
+print wordmaprdd.collect()
+
+
+
+
+from operator import add
+
+nums = sc.parallelize([1, 2, 3, 4, 5])
+
+
+adding=nums.reduce(add)
+
+print adding
+
+
+x = sc.parallelize([("spark", 1), ("hadoop", 4)])
+y = sc.parallelize([("spark", 2), ("hadoop", 5)])
+
+joined = x.join(y)
+
+final = joined.collect()
+print final
